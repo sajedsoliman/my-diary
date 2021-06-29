@@ -1,5 +1,7 @@
-import { MainTaskInfoProps } from "../../typescripts/commonTypes";
 import React, { useCallback, useEffect } from "react";
+
+// type
+import { MainTaskInfoProps } from "../../typescripts/commonTypes";
 
 type Props = {
 	taskInfo: MainTaskInfoProps;
@@ -48,6 +50,7 @@ const TaskForm = ({
 
 	return (
 		<form onBlur={handleBlur} onSubmit={onSubmit} className="flex space-x-2 overflow-x-auto">
+			{/* title field */}
 			<input
 				ref={titleInputRef}
 				className="border border-gray-400 rounded-md p-1"
@@ -57,6 +60,8 @@ const TaskForm = ({
 				placeholder="Title"
 				autoFocus={titleInputRef === undefined && bodyInputRef == undefined}
 			/>
+
+			{/* body field */}
 			<input
 				ref={bodyInputRef}
 				className="border border-gray-400 rounded-md p-1"

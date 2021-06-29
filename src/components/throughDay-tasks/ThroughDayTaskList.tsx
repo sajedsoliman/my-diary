@@ -3,7 +3,7 @@ import { useState } from "react";
 // UI
 import { Button, useTheme } from "@material-ui/core";
 
-// Icons
+// icons
 import { Add } from "@material-ui/icons";
 
 // utils
@@ -14,8 +14,9 @@ import ThroughDayTask from "./ThroughDayTask";
 import NewTaskSample from "./NewTaskSample";
 import { Droppable } from "react-beautiful-dnd";
 
-// Types
+// types
 import { ThroughDayTaskProps } from "typescripts/commonTypes";
+
 type Props = {
 	list: ThroughDayTaskProps[];
 };
@@ -50,8 +51,15 @@ const ThroughDayTaskList = ({ list }: Props) => {
 		<div>
 			{/* List itself */}
 			<Droppable droppableId="throughDay_tasks">
-				{({ innerRef, droppableProps, placeholder }) => (
-					<ul ref={innerRef} {...droppableProps} className="mb-2 mt-4 rounded-sm overflow-hidden">
+				{({ innerRef, droppableProps, placeholder }, { isDraggingOver }) => (
+					<ul
+						ref={innerRef}
+						{...droppableProps}
+						className={clsx(
+							"mb-2 mt-4 p-1 rounded-sm overflow-hidden transition-all",
+							isDraggingOver && "border-red-200 border"
+						)}
+					>
 						{taskListLength === 0 ? (
 							<h3 className={clsx(darkMode && "text-white")}>No Tasks</h3>
 						) : (

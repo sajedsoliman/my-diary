@@ -1,5 +1,7 @@
+import React from "react";
+
 // router
-import { Link, Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 // UI
 import { AppBar, Toolbar, Avatar, makeStyles, IconButton, Button } from "@material-ui/core";
@@ -33,7 +35,7 @@ const Header = ({ toggleDarkMode }: Props) => {
 
 	// Button props
 	const btnProps = (
-		color: "primary" | "secondary",
+		color: string,
 		icon: React.ComponentProps<"svg">,
 		to: string,
 		component = RouterLink
@@ -73,9 +75,11 @@ const Header = ({ toggleDarkMode }: Props) => {
 				) : (
 					/* unLogged user : nothing. controls: login, register */
 					<div className="flex flex-1 items-center space-x-2">
+						{/* @ts-ignore */}
 						<Button {...btnProps("primary", <LoginIcon className="h-6" />, "/login")}>
 							<span className="text-gray-600">Login</span>
 						</Button>
+						{/* @ts-ignore */}
 						<Button {...btnProps("primary", <UserAddIcon className="h-5" />, "/register")}>
 							<span className="text-gray-600">Register</span>
 						</Button>

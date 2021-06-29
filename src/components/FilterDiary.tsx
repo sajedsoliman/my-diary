@@ -11,8 +11,6 @@ type Props = {
 const FilterDiary = ({ diaryDate, handleChangeDate }: Props) => {
 	return (
 		<section className="mb-4">
-			{/* <h3>Select a diary's date</h3> */}
-
 			{/* Date picker input */}
 			<Controls.DatePicker
 				label="Select a diary's date"

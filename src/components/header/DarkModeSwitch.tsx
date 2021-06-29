@@ -3,11 +3,11 @@ import { makeStyles, Switch, useTheme } from "@material-ui/core";
 // Icons
 import { NightsStay, WbSunny } from "@material-ui/icons";
 
-// Contexts
+// contexts
 
-// Hooks
+// hooks
 
-// Components
+// components
 
 // styles
 const useStyles = makeStyles((theme) => ({

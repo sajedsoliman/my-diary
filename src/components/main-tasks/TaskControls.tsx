@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 // UI
 import { IconButton, ClickAwayListener } from "@material-ui/core";
@@ -9,13 +9,15 @@ import { DeleteForever, DoneOutline, MoreVert, Undo } from "@material-ui/icons";
 // components
 import CustomMenuList from "../../common-components/ui/CustomMenuList";
 
-// Types
+// types
 type Props = {
 	handleToggleTask: () => void;
 	completed: boolean;
 	handleDelete: () => void;
+	listType: "main_tasks" | "throughDay_tasks";
 };
-const TaskControls = ({ handleToggleTask, completed, handleDelete }: Props) => {
+
+const TaskControls = ({ handleToggleTask, completed, handleDelete, listType }: Props) => {
 	// Refs
 	const popperTogglerRef = useRef(null);
 
@@ -29,7 +31,7 @@ const TaskControls = ({ handleToggleTask, completed, handleDelete }: Props) => {
 	return (
 		<div>
 			<IconButton size="small" onClick={togglePopper} ref={popperTogglerRef}>
-				<MoreVert />
+				<MoreVert color={listType === "main_tasks" ? "primary" : "secondary"} />
 			</IconButton>
 
 			<CustomMenuList open={controlsOpen} placement="left" anchorEl={popperTogglerRef.current}>

@@ -1,17 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 
-// Contexts
-import { useDiary } from "./../../contexts/DiaryContext";
+// contexts
 
-// Components
+// utils
+import clsx from "clsx";
+
+// components
 import Store from "../../backends/Store";
 import TaskInfoForm from "./TaskInfoForm";
 import InfoView from "./InfoView";
 import { Draggable } from "react-beautiful-dnd";
-
-// Types
-import { MainTaskProps } from "../../typescripts/commonTypes";
 import TaskControls from "./TaskControls";
+
+// types
+import { MainTaskProps } from "../../typescripts/commonTypes";
+
 type Props = {
 	task: MainTaskProps;
 	taskList: MainTaskProps[];
@@ -19,8 +22,6 @@ type Props = {
 };
 
 const MainTask = ({ task, taskList, index }: Props) => {
-	const diary: any = useDiary();
-
 	// Refs
 	const titleInputRef = useRef<HTMLInputElement>(null);
 	const bodyInputRef = useRef<HTMLInputElement>(null);
@@ -110,14 +111,16 @@ const MainTask = ({ task, taskList, index }: Props) => {
 
 	return (
 		<Draggable draggableId={task.id} index={index}>
-			{(provided) => {
+			{(provided, { isDragging }) => {
 				return (
 					<li
-						//@ts-ignore
 						ref={provided.innerRef}
 						{...provided.draggableProps}
 						{...provided.dragHandleProps}
-						className="flex space-x-3 my-1 items-center justify-between p-2 border overflow-x-auto"
+						className={clsx(
+							"flex space-x-3 my-1 items-center justify-between p-2 border overflow-x-auto bg-white",
+							isDragging && "border-primary shadow-md"
+						)}
 					>
 						{editView ? (
 							// Form
@@ -143,6 +146,7 @@ const MainTask = ({ task, taskList, index }: Props) => {
 								completed={task.completed}
 								handleDelete={handleDelete}
 								handleToggleTask={handleToggleTask}
+								listType="main_tasks"
 							/>
 						)}
 					</li>

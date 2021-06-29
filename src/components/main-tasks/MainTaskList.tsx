@@ -6,16 +6,17 @@ import { Button, useTheme } from "@material-ui/core";
 // icons
 import { Add } from "@material-ui/icons";
 
-// Utils
+// utils
 import clsx from "clsx";
 
-// Components
+// components
 import MainTask from "./MainTask";
 import NewTaskSample from "./NewTaskSample";
 import { Droppable } from "react-beautiful-dnd";
 
-// Types
+// types
 import { MainTaskProps } from "../../typescripts/commonTypes";
+
 type Props = {
 	list: MainTaskProps[];
 };
@@ -47,10 +48,13 @@ const MainTaskList = ({ list }: Props) => {
 		<div>
 			{/* Task list */}
 			<Droppable droppableId="main_tasks">
-				{(provided) => {
+				{(provided, { isDraggingOver }) => {
 					return (
-						// @ts-ignore
-						<ul {...provided.droppableProps} ref={provided.innerRef} className="mb-2">
+						<ul
+							{...provided.droppableProps}
+							ref={provided.innerRef}
+							className={clsx("mb-2 p-1 transition-all", isDraggingOver && "border border-primary")}
+						>
 							{mappedTasks.length === 0 ? (
 								<h3 className={clsx(darkMode && "text-white")}>No Tasks</h3>
 							) : (

@@ -1,14 +1,14 @@
 // router
 import { useLocation } from "react-router-dom";
 
-// Info
+// info - functions (helpers)
 import { userValidation } from "helpers/functions";
 import { USER_SIGNIN_INITIAL_VALUES } from "helpers/info";
 
-// Hooks
+// hooks
 import { useForm } from "hooks/useForm";
 
-// Components
+// components
 import Store from "backends/Store";
 import UserForm from "../../components/forms/UserForm";
 

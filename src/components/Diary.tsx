@@ -196,7 +196,7 @@ const Diary = () => {
 							</Grid>
 
 							{/* ThroughDay task list section */}
-							<Grid item xs={12} md={6} /* style={{ paddingRight: 0, marginRight: 0 }} */>
+							<Grid item xs={12} md={6}>
 								<section className="p-2 border border-red-300">
 									{/* Title */}
 									<h5 className={headerClassName}>
@@ -215,8 +215,9 @@ const Diary = () => {
 
 									{/* divider - just for large screens */}
 									{!isSmallScreen && <Divider />}
+
+									{/* List */}
 									<Collapse in={menuCollapse.throughDay}>
-										{/* List */}
 										<ThroughDayTaskList list={diary.throughDay_tasks} />
 									</Collapse>
 								</section>

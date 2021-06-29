@@ -3,11 +3,12 @@ import React, { useCallback, useEffect, useState } from "react";
 // hooks
 import { Form } from "hooks/useForm";
 
-// Components
+// components
 import Store from "backends/Store";
 
 // Types
 import { ThroughDayTaskProps } from "typescripts/commonTypes";
+
 type Props = {
 	task: ThroughDayTaskProps;
 	taskList: ThroughDayTaskProps[];
@@ -63,6 +64,7 @@ const TaskEditView = ({ task, taskList, toggleEditView }: Props) => {
 
 	return (
 		<Form onSubmit={handleSubmit} onBlur={updateTask}>
+			{/* Body field */}
 			<input
 				value={taskBody}
 				onChange={onChangeBody}

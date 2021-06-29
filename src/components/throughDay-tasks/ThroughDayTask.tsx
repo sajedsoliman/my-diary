@@ -1,14 +1,20 @@
 import { useState } from "react";
 
-// Components
+// UI
+import { useTheme } from "@material-ui/core";
+
+// utils
+import clsx from "clsx";
+
+// components
 import TaskControls from "components/main-tasks/TaskControls";
 import Store from "./../../backends/Store";
 import { Draggable } from "react-beautiful-dnd";
+import TaskEditView from "./TaskEditView";
 
 // Types
 import { ThroughDayTaskProps } from "typescripts/commonTypes";
-import TaskEditView from "./TaskEditView";
-import { useTheme } from "@material-ui/core";
+
 type Props = {
 	task: ThroughDayTaskProps;
 	taskList: ThroughDayTaskProps[];
@@ -18,7 +24,6 @@ type Props = {
 const ThroughDayTask = ({ task, taskList, index }: Props) => {
 	// State vars
 	const [editView, setEditView] = useState(false);
-	const [taskBody, setTaskBody] = useState(task.body);
 
 	// handle toggle edit view
 	const toggleEditView = () => {
@@ -44,33 +49,37 @@ const ThroughDayTask = ({ task, taskList, index }: Props) => {
 
 	return (
 		<Draggable draggableId={task.id} index={index}>
-			{({ dragHandleProps, draggableProps, innerRef }) => (
-				<li
-					{...dragHandleProps}
-					ref={innerRef}
-					{...draggableProps}
-					className="border p-2 flex items-center justify-between"
-				>
-					{editView ? (
-						<TaskEditView toggleEditView={toggleEditView} taskList={taskList} task={task} />
-					) : (
-						<h6
-							onClick={toggleEditView}
-							className={`${task.completed && "line-through"} ${
-								darkMode && "text-white"
-							} cursor-pointer text-sm`}
-						>
-							{task.body}
-						</h6>
-					)}
+			{({ dragHandleProps, draggableProps, innerRef }, snapshot) => {
+				return (
+					<li
+						{...dragHandleProps}
+						ref={innerRef}
+						{...draggableProps}
+						className={clsx(
+							snapshot.isDragging && "border-red-300 shadow-md",
+							"border p-2 flex items-center justify-between bg-white my-1"
+						)}
+					>
+						{editView ? (
+							<TaskEditView toggleEditView={toggleEditView} taskList={taskList} task={task} />
+						) : (
+							<h6
+								onClick={toggleEditView}
+								className={`${task.completed && "line-through"} cursor-pointer text-sm`}
+							>
+								{task.body}
+							</h6>
+						)}
 
-					<TaskControls
-						handleDelete={handleDelete}
-						handleToggleTask={handleToggleTask}
-						completed={task.completed}
-					/>
-				</li>
-			)}
+						<TaskControls
+							handleDelete={handleDelete}
+							handleToggleTask={handleToggleTask}
+							completed={task.completed}
+							listType="throughDay_tasks"
+						/>
+					</li>
+				);
+			}}
 		</Draggable>
 	);
 };

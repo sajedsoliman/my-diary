@@ -1,20 +1,23 @@
 import { useState, SetStateAction, Dispatch } from "react";
+
+// Router
+import { useHistory } from "react-router-dom";
+
+// firebase
+import { db, firebase, auth, storage } from "./database";
+
+// contexts
+import { AuthUser } from "contexts/UserContext";
+import { useDiary } from "./../contexts/DiaryContext";
+
+// types
 import {
+	ThroughDayTaskProps,
 	MainTaskProps,
 	RegisterUserProps,
 	AuthUserProps,
 	DiaryProps,
-	DBDiaryProps,
-} from "../typescripts/commonTypes";
-import { useDiary } from "./../contexts/DiaryContext";
-import { ThroughDayTaskProps } from "typescripts/commonTypes";
-
-// Router
-import { useHistory } from "react-router-dom";
-import { db, firebase, auth, storage } from "./database";
-
-// Contexts
-import { AuthUser } from "contexts/UserContext";
+} from "typescripts/commonTypes";
 
 const Store = () => {
 	const loggedUser = AuthUser();
@@ -22,8 +25,8 @@ const Store = () => {
 
 	const diariesRef =
 		loggedUser !== "no user"
-		? db.collection("users").doc(loggedUser.id).collection("user-diaries")
-		: db.collection("diaries");
+			? db.collection("users").doc(loggedUser.id).collection("user-diaries")
+			: db.collection("diaries");
 
 	// State vars
 	const [loading, setLoading] = useState(false);

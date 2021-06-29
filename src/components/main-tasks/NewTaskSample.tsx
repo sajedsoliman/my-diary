@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 
-// Contexts
-import { useDiary } from "./../../contexts/DiaryContext";
-
-// Components
+// components
 import TaskForm from "./TaskInfoForm";
 import Store from "./../../backends/Store";
 
@@ -14,8 +11,6 @@ type Props = {
 };
 
 const NewTaskSample = ({ toggleSample, sampleClosed }: Props) => {
-	const diary: any = useDiary();
-
 	const [sampleInfo, setSampleInfo] = useState<{ title: string; body: string }>({
 		title: "",
 		body: "",

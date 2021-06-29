@@ -61,6 +61,7 @@ const NewTaskSample = ({ closeSample, didSampleClosed }: Props) => {
 
 	return (
 		<form onBlur={handleAddTask} onSubmit={onSubmit}>
+			{/* Body field */}
 			<input
 				autoFocus
 				value={sampleBody}
