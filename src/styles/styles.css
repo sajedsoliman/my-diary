@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+button:focus,
+input:focus {
+	outline: none;
+}
+
+.app {
+	font-family: Poppins;
+	min-width: 100vw;
+	max-width: 100vw;
+	height: calc(100vh);
+}
+
+.content {
+	min-height: calc(100vh - 50px); /* 50px - header's height  */
+	overflow-x: hidden;
+}

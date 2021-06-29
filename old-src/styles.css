@@ -1,0 +1,13 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: Poppins;
+	min-width: 100vw;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
