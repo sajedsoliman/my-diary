@@ -65,7 +65,7 @@ const ThroughDayTask = ({ task, taskList, index }: Props) => {
 						) : (
 							<h6
 								onClick={toggleEditView}
-								className={`${task.completed && "line-through"} cursor-pointer text-sm`}
+								className={`${task.completed && "line-through"} flex-1 cursor-pointer text-sm`}
 							>
 								{task.body}
 							</h6>

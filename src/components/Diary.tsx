@@ -164,7 +164,7 @@ const Diary = () => {
 
 									{/* Title */}
 									<h5 className={headerClassName}>
-										<span>Main Tasks edited</span>
+										<span>Main Tasks</span>
 
 										{/* Collapse toggler */}
 										<div

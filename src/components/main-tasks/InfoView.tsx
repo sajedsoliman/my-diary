@@ -18,7 +18,7 @@ const InfoView = ({ completed, taskInfo, handleClickToOpenEditView }: Props) => 
 	const darkMode = useTheme().palette.type === "dark";
 
 	const styles = clsx(
-		"flex space-x-4 items-center cursor-pointer font-medium",
+		"flex space-x-4 items-center flex-1 cursor-pointer font-medium",
 		completed && "line-through"
 	);
 
@@ -28,7 +28,7 @@ const InfoView = ({ completed, taskInfo, handleClickToOpenEditView }: Props) => 
 				{taskInfo.title}
 			</h5>
 			<p
-				className={`text-blue-500 ${atSmallScreen && "text-sm"}`}
+				className={`text-blue-500 flex-1 ${atSmallScreen && "text-sm"}`}
 				onClick={() => handleClickToOpenEditView("body")}
 			>
 				{taskInfo.body}
