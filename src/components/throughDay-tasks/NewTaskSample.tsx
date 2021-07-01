@@ -67,7 +67,7 @@ const NewTaskSample = ({ closeSample, didSampleClosed }: Props) => {
 				value={sampleBody}
 				onChange={handleChangeSampleBody}
 				placeholder="Task Body"
-				className="border p-1 rounded-md"
+				className="border-b w-full"
 			/>
 
 			<button className="sr-only" type="submit"></button>

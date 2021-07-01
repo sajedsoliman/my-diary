@@ -52,12 +52,13 @@ const ThroughDayTask = ({ task, taskList, index }: Props) => {
 			{({ dragHandleProps, draggableProps, innerRef }, snapshot) => {
 				return (
 					<li
-						{...dragHandleProps}
 						ref={innerRef}
-						{...draggableProps}
+						// will not be draggable if it is in edit view
+						{...(!editView && { ...draggableProps, ...dragHandleProps })}
 						className={clsx(
 							snapshot.isDragging && "border-red-300 shadow-md",
-							"border p-2 flex items-center justify-between bg-white my-1"
+							"p-2 flex items-center justify-between bg-white",
+							!editView ? "border my-1" : "my-2"
 						)}
 					>
 						{editView ? (
@@ -71,12 +72,14 @@ const ThroughDayTask = ({ task, taskList, index }: Props) => {
 							</h6>
 						)}
 
-						<TaskControls
-							handleDelete={handleDelete}
-							handleToggleTask={handleToggleTask}
-							completed={task.completed}
-							listType="throughDay_tasks"
-						/>
+						{!editView && (
+							<TaskControls
+								handleDelete={handleDelete}
+								handleToggleTask={handleToggleTask}
+								completed={task.completed}
+								listType="throughDay_tasks"
+							/>
+						)}
 					</li>
 				);
 			}}

@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect } from "react";
 
+// UI
+import { Divider } from "@material-ui/core";
+
 // type
 import { MainTaskInfoProps } from "../../typescripts/commonTypes";
 
@@ -49,11 +52,11 @@ const TaskForm = ({
 	}, [taskInfo]);
 
 	return (
-		<form onBlur={handleBlur} onSubmit={onSubmit} className="flex space-x-2 overflow-x-auto">
+		<form onBlur={handleBlur} onSubmit={onSubmit} className="flex w-full space-x-2 overflow-x-auto">
 			{/* title field */}
 			<input
 				ref={titleInputRef}
-				className="border border-gray-400 rounded-md p-1"
+				className="border-b border-gray-400 flex-1"
 				value={title}
 				name="title"
 				onChange={handleInfoChange}
@@ -61,10 +64,13 @@ const TaskForm = ({
 				autoFocus={titleInputRef === undefined && bodyInputRef == undefined}
 			/>
 
+			{/* divider */}
+			<Divider orientation="vertical" flexItem light />
+
 			{/* body field */}
 			<input
 				ref={bodyInputRef}
-				className="border border-gray-400 rounded-md p-1"
+				className="border-b border-gray-400 flex-1"
 				value={body}
 				name="body"
 				onChange={handleInfoChange}

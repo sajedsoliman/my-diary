@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 // UI
-import { Button, useTheme } from "@material-ui/core";
+import { Button, useTheme, Divider } from "@material-ui/core";
 
 // icons
 import { Add } from "@material-ui/icons";
@@ -68,12 +68,20 @@ const ThroughDayTaskList = ({ list }: Props) => {
 
 						{/* new task sample */}
 						{sampleOpen && (
-							<li className="border p-2">
-								<NewTaskSample
-									didSampleClosed={didSampleClosed}
-									closeSample={() => setSampleOpen(false)}
-								/>
-							</li>
+							<>
+								{/* divider */}
+								<div className="my-2">
+									<Divider />
+								</div>
+
+								{/* sample */}
+								<li className="py-2">
+									<NewTaskSample
+										didSampleClosed={didSampleClosed}
+										closeSample={() => setSampleOpen(false)}
+									/>
+								</li>
+							</>
 						)}
 
 						{placeholder}

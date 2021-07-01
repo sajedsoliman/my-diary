@@ -59,7 +59,7 @@ const NewTaskSample = ({ toggleSample, sampleClosed }: Props) => {
 	}, [sampleClosed]);
 
 	return (
-		<div className="p-2 border">
+		<div className="py-2">
 			<TaskForm
 				handleBlur={handleBlur}
 				handleSubmit={handleSubmit}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 // UI
-import { Button, useTheme } from "@material-ui/core";
+import { Button, Divider, useTheme } from "@material-ui/core";
 
 // icons
 import { Add } from "@material-ui/icons";
@@ -23,7 +23,7 @@ type Props = {
 
 const MainTaskList = ({ list }: Props) => {
 	const [isSampleClosed, setSampleClosed] = useState(false);
-	const [sampleOpen, setSampleOpen] = useState(false);
+	const [sampleOpen, setSampleOpen] = useState(true);
 
 	// handle add a new task
 	const handleToggleTaskSample = () => {
@@ -66,10 +66,18 @@ const MainTaskList = ({ list }: Props) => {
 
 							{/* new task sample form */}
 							{sampleOpen && (
-								<NewTaskSample
-									toggleSample={() => setSampleOpen(false)}
-									sampleClosed={isSampleClosed}
-								/>
+								<>
+									{/* divider */}
+									<div className="my-2">
+										<Divider />
+									</div>
+
+									{/* sample */}
+									<NewTaskSample
+										toggleSample={() => setSampleOpen(false)}
+										sampleClosed={isSampleClosed}
+									/>
+								</>
 							)}
 						</ul>
 					);

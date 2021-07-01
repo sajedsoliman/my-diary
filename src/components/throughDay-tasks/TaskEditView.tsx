@@ -51,7 +51,7 @@ const TaskEditView = ({ task, taskList, toggleEditView }: Props) => {
 			// if escape is pressed then handle update it or delete(if title is blank)
 			if (isEscape) updateTask();
 		},
-		[updateTask]
+		[updateTask, taskBody]
 	);
 
 	useEffect(() => {
@@ -60,17 +60,17 @@ const TaskEditView = ({ task, taskList, toggleEditView }: Props) => {
 		return () => {
 			window.removeEventListener("keydown", handleKeyPress);
 		};
-	}, []);
+	}, [taskBody]);
 
 	return (
-		<Form onSubmit={handleSubmit} onBlur={updateTask}>
+		<Form onSubmit={handleSubmit} onBlur={updateTask} className="flex-1">
 			{/* Body field */}
 			<input
 				value={taskBody}
 				onChange={onChangeBody}
 				placeholder="Task Body"
 				autoFocus
-				className="border p-1 rounded-md"
+				className="border-b w-full"
 			/>
 
 			<button className="sr-only" type="submit"></button>

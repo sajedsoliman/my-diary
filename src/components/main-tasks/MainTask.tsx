@@ -115,11 +115,12 @@ const MainTask = ({ task, taskList, index }: Props) => {
 				return (
 					<li
 						ref={provided.innerRef}
-						{...provided.draggableProps}
-						{...provided.dragHandleProps}
+						// will not be draggable if it is in edit view
+						{...(!editView && { ...provided.draggableProps, ...provided.dragHandleProps })}
 						className={clsx(
-							"flex space-x-3 my-1 items-center justify-between p-2 border overflow-x-auto bg-white",
-							isDragging && "border-primary shadow-md"
+							"flex space-x-3 my-1 items-center justify-between overflow-x-auto bg-white",
+							isDragging && "border-primary shadow-md",
+							editView ? "py-2" : "border p-2"
 						)}
 					>
 						{editView ? (
