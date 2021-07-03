@@ -9,6 +9,12 @@ import { Add } from "@material-ui/icons";
 // utils
 import clsx from "clsx";
 
+// hooks
+import useLocalStorage from "hooks/useLocalStorage";
+
+// contexts
+import ArchivedTasksProvider from "contexts/ArchivedTasksContext";
+
 // components
 import MainTask from "./MainTask";
 import NewTaskSample from "./NewTaskSample";
@@ -23,7 +29,7 @@ type Props = {
 
 const MainTaskList = ({ list }: Props) => {
 	const [isSampleClosed, setSampleClosed] = useState(false);
-	const [sampleOpen, setSampleOpen] = useState(true);
+	const [sampleOpen, setSampleOpen] = useState(false);
 
 	// handle add a new task
 	const handleToggleTaskSample = () => {
@@ -47,42 +53,47 @@ const MainTaskList = ({ list }: Props) => {
 	return (
 		<div>
 			{/* Task list */}
-			<Droppable droppableId="main_tasks">
-				{(provided, { isDraggingOver }) => {
-					return (
-						<ul
-							{...provided.droppableProps}
-							ref={provided.innerRef}
-							className={clsx("mb-2 p-1 transition-all", isDraggingOver && "border border-primary")}
-						>
-							{mappedTasks.length === 0 ? (
-								<h3 className={clsx(darkMode && "text-white")}>No Tasks</h3>
-							) : (
-								mappedTasks
-							)}
+			<ArchivedTasksProvider>
+				<Droppable droppableId="main_tasks">
+					{(provided, { isDraggingOver }) => {
+						return (
+							<ul
+								{...provided.droppableProps}
+								ref={provided.innerRef}
+								className={clsx(
+									"mb-2 p-1 transition-all",
+									isDraggingOver && "border border-primary"
+								)}
+							>
+								{mappedTasks.length === 0 ? (
+									<h3 className={clsx(darkMode && "text-white")}>No Tasks</h3>
+								) : (
+									mappedTasks
+								)}
 
-							{/* the placeholder */}
-							{provided.placeholder}
+								{/* the placeholder */}
+								{provided.placeholder}
 
-							{/* new task sample form */}
-							{sampleOpen && (
-								<>
-									{/* divider */}
-									<div className="my-2">
-										<Divider />
-									</div>
+								{/* new task sample form */}
+								{sampleOpen && (
+									<>
+										{/* divider */}
+										<div className="my-2">
+											<Divider />
+										</div>
 
-									{/* sample */}
-									<NewTaskSample
-										toggleSample={() => setSampleOpen(false)}
-										sampleClosed={isSampleClosed}
-									/>
-								</>
-							)}
-						</ul>
-					);
-				}}
-			</Droppable>
+										{/* sample */}
+										<NewTaskSample
+											toggleSample={() => setSampleOpen(false)}
+											sampleClosed={isSampleClosed}
+										/>
+									</>
+								)}
+							</ul>
+						);
+					}}
+				</Droppable>
+			</ArchivedTasksProvider>
 
 			{/* Add task button */}
 			<Button

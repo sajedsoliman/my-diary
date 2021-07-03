@@ -46,12 +46,10 @@ const NewTaskSample = ({ toggleSample, sampleClosed }: Props) => {
 		}
 	};
 
-	// handle Change inputs
-	const handleChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setSampleInfo((prev) => ({
-			...prev,
-			[e.target.name]: e.target.value,
-		}));
+	// handle info inputs change
+	const handleChangeInputs = (e: any, newValue: string | null, changedInput: "title" | "body") => {
+		// console.log(newValue);
+		setSampleInfo((prev) => ({ ...prev, [changedInput]: newValue }));
 	};
 
 	useEffect(() => {

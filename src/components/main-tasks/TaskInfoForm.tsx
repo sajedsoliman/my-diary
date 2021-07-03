@@ -1,10 +1,14 @@
 import React, { useCallback, useEffect } from "react";
 
 // UI
-import { Divider } from "@material-ui/core";
+import { Divider, TextField } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
+
+// contexts
+import { useArchivedTasks } from "contexts/ArchivedTasksContext";
 
 // type
-import { MainTaskInfoProps } from "../../typescripts/commonTypes";
+import { ArchivedTaskProps, MainTaskInfoProps } from "../../typescripts/commonTypes";
 
 type Props = {
 	taskInfo: MainTaskInfoProps;
@@ -12,7 +16,7 @@ type Props = {
 	bodyInputRef?: React.RefObject<HTMLInputElement>;
 	handleSubmit: () => void;
 	handleBlur: React.FocusEventHandler<HTMLFormElement>;
-	handleInfoChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	handleInfoChange: (e: any, newValue: string | null, changedInput: "title" | "body") => void;
 };
 
 const TaskForm = ({
@@ -24,6 +28,8 @@ const TaskForm = ({
 	handleInfoChange,
 }: Props) => {
 	const { body, title } = taskInfo;
+
+	const archivedTasks = useArchivedTasks() as ArchivedTaskProps[];
 
 	// handle submit
 	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -52,17 +58,42 @@ const TaskForm = ({
 	}, [taskInfo]);
 
 	return (
-		<form onBlur={handleBlur} onSubmit={onSubmit} className="flex w-full space-x-2 overflow-x-auto">
-			{/* title field */}
-			<input
-				ref={titleInputRef}
-				className="border-b border-gray-400 flex-1"
-				value={title}
-				name="title"
-				onChange={handleInfoChange}
-				placeholder="Title"
-				autoFocus={titleInputRef === undefined && bodyInputRef == undefined}
-			/>
+		<form
+			onBlur={handleBlur}
+			onSubmit={onSubmit}
+			className="flex w-full space-x-2 overflow-y-hidden overflow-x-auto"
+		>
+			{/* title field - with autocomplete from archived tasks */}
+			<div className="flex-1">
+				<Autocomplete
+					options={archivedTasks}
+					getOptionLabel={(option) => option.title}
+					fullWidth
+					freeSolo
+					size="small"
+					value={taskInfo}
+					inputValue={title}
+					onInputChange={(e, newValue) => {
+						handleInfoChange(e, newValue, "title");
+					}}
+					onChange={(e, newValue) => {
+						if (newValue !== null && typeof newValue !== "string") {
+							handleInfoChange(e, newValue.title, "title");
+							handleInfoChange(e, newValue.body, "body");
+						}
+					}}
+					renderInput={(params) => {
+						return (
+							<TextField
+								inputRef={titleInputRef}
+								placeholder="Title"
+								variant="standard"
+								{...params}
+							/>
+						);
+					}}
+				/>
+			</div>
 
 			{/* divider */}
 			<Divider orientation="vertical" flexItem light />
@@ -73,7 +104,7 @@ const TaskForm = ({
 				className="border-b border-gray-400 flex-1"
 				value={body}
 				name="body"
-				onChange={handleInfoChange}
+				onChange={(e) => handleInfoChange(e, e.target.value, "body")}
 				placeholder="Body"
 			/>
 

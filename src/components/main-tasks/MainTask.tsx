@@ -91,8 +91,12 @@ const MainTask = ({ task, taskList, index }: Props) => {
 	}, [focusedInput, titleInputRef, bodyInputRef]);
 
 	// handle info inputs change
-	const handleTaskInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setTaskInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+	const handleTaskInfoChange = (
+		e: any,
+		newValue: string | null,
+		changedInput: "title" | "body"
+	) => {
+		setTaskInfo((prev) => ({ ...prev, [changedInput]: newValue }));
 	};
 
 	// handle click on the title or body to toggle the edit view
@@ -144,6 +148,7 @@ const MainTask = ({ task, taskList, index }: Props) => {
 						{/* complete toggler */}
 						{!editView && (
 							<TaskControls
+								task={task}
 								completed={task.completed}
 								handleDelete={handleDelete}
 								handleToggleTask={handleToggleTask}

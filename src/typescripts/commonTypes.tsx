@@ -48,6 +48,11 @@ type RegisterUserProps = {
 	password: string;
 };
 
+type ArchivedTaskProps = {
+	body: string;
+	title: string;
+};
+
 export type {
 	DBDiaryProps,
 	DiaryProps,
@@ -56,4 +61,5 @@ export type {
 	ThroughDayTaskProps,
 	RegisterUserProps,
 	AuthUserProps,
+	ArchivedTaskProps,
 };
