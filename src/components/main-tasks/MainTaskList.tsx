@@ -10,7 +10,6 @@ import { Add } from "@material-ui/icons";
 import clsx from "clsx";
 
 // hooks
-import useLocalStorage from "hooks/useLocalStorage";
 
 // contexts
 import ArchivedTasksProvider from "contexts/ArchivedTasksContext";
@@ -61,7 +60,7 @@ const MainTaskList = ({ list }: Props) => {
 								{...provided.droppableProps}
 								ref={provided.innerRef}
 								className={clsx(
-									"mb-2 p-1 transition-all",
+									"mb-2 p-1 transition-all rounded-sm",
 									isDraggingOver && "border border-primary"
 								)}
 							>

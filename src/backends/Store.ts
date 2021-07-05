@@ -128,6 +128,20 @@ const Store = () => {
 		});
 	};
 
+	// update a taskList as whole (when dragEnd and other uses)
+	const handleUpdateTaskList = (
+		taskListType: "main_tasks" | "throughDay_tasks",
+		newTaskList: MainTaskProps[] | ThroughDayTaskProps[],
+		diaryId: string
+	) => {
+		// getting the diaryId from props because of the diary context
+		// since it lives in the same file we call this function (Diary.tsx) so it will be null
+		if (loggedUser !== "no user")
+			diariesRef.doc(diaryId).update({
+				[taskListType]: newTaskList,
+			});
+	};
+
 	// handle add the user to db
 	const addUserToDb = (userInfo: AuthUserProps) => {
 		db.collection("users").doc(userInfo.id).set(userInfo);
@@ -210,6 +224,7 @@ const Store = () => {
 	return {
 		getDiary,
 		handleUpdateTask,
+		handleUpdateTaskList,
 		handleDeleteTask,
 		addTask,
 		loading,

@@ -56,9 +56,10 @@ const ThroughDayTask = ({ task, taskList, index }: Props) => {
 						// will not be draggable if it is in edit view
 						{...(!editView && { ...draggableProps, ...dragHandleProps })}
 						className={clsx(
-							snapshot.isDragging && "border-red-300 shadow-md",
-							"p-2 flex items-center justify-between bg-white",
-							!editView ? "border my-1" : "my-2"
+							"p-2 flex items-center justify-between bg-white rounded-md",
+							snapshot.isDragging && "border-red-300 shadow-md overflow-y-hidden",
+							!editView ? "border my-1" : "my-2",
+							darkMode && "bg-dark text-white border-dark"
 						)}
 					>
 						{editView ? (

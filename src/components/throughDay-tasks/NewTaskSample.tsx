@@ -1,5 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 
+// UI
+import { TextField } from "@material-ui/core";
+
 // Components
 import Store from "backends/Store";
 
@@ -62,12 +65,13 @@ const NewTaskSample = ({ closeSample, didSampleClosed }: Props) => {
 	return (
 		<form onBlur={handleAddTask} onSubmit={onSubmit}>
 			{/* Body field */}
-			<input
-				autoFocus
-				value={sampleBody}
-				onChange={handleChangeSampleBody}
+			<TextField
 				placeholder="Task Body"
-				className="border-b w-full"
+				variant="standard"
+				value={sampleBody}
+				fullWidth
+				onChange={handleChangeSampleBody}
+				autoFocus
 			/>
 
 			<button className="sr-only" type="submit"></button>

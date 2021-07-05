@@ -49,7 +49,6 @@ type RegisterUserProps = {
 };
 
 type ArchivedTaskProps = {
-	body: string;
 	title: string;
 };
 

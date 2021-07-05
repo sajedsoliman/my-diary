@@ -51,6 +51,9 @@ const TaskControls = ({ handleToggleTask, completed, handleDelete, listType, tas
 	const isArchived =
 		archivedTasks?.findIndex((savedTask: any) => savedTask.title === task?.title) != -1;
 
+	// is the task a main one?
+	const isMain = listType === "main_tasks";
+
 	return (
 		<div>
 			<IconButton size="small" onClick={togglePopper} ref={popperTogglerRef}>
@@ -70,17 +73,19 @@ const TaskControls = ({ handleToggleTask, completed, handleDelete, listType, tas
 							<DeleteForever />
 						</IconButton>
 
-						{/* archive task */}
-						<IconButton
-							onClick={() => {
-								if (handleArchive != undefined && task !== undefined)
-									handleArchive(isArchived, task);
-							}}
-							color="primary"
-							size="small"
-						>
-							{isArchived ? <Bookmark /> : <BookmarkBorder />}
-						</IconButton>
+						{/* archive task - just for main tasks */}
+						{isMain && (
+							<IconButton
+								onClick={() => {
+									if (handleArchive != undefined && task !== undefined)
+										handleArchive(isArchived, task);
+								}}
+								color="primary"
+								size="small"
+							>
+								{isArchived ? <Bookmark /> : <BookmarkBorder />}
+							</IconButton>
+						)}
 					</div>
 				</ClickAwayListener>
 			</CustomMenuList>

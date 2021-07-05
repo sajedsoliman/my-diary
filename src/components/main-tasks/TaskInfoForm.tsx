@@ -8,7 +8,7 @@ import { Autocomplete } from "@material-ui/lab";
 import { useArchivedTasks } from "contexts/ArchivedTasksContext";
 
 // type
-import { ArchivedTaskProps, MainTaskInfoProps } from "../../typescripts/commonTypes";
+import { MainTaskInfoProps } from "../../typescripts/commonTypes";
 
 type Props = {
 	taskInfo: MainTaskInfoProps;
@@ -29,7 +29,7 @@ const TaskForm = ({
 }: Props) => {
 	const { body, title } = taskInfo;
 
-	const archivedTasks = useArchivedTasks() as ArchivedTaskProps[];
+	const archivedTasks = useArchivedTasks();
 
 	// handle submit
 	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -57,11 +57,14 @@ const TaskForm = ({
 		};
 	}, [taskInfo]);
 
+	// are we inside the sample condition
+	const isSample = !bodyInputRef && !titleInputRef;
+
 	return (
 		<form
 			onBlur={handleBlur}
 			onSubmit={onSubmit}
-			className="flex w-full space-x-2 overflow-y-hidden overflow-x-auto"
+			className="flex w-full space-x-2 items-center overflow-y-hidden overflow-x-auto"
 		>
 			{/* title field - with autocomplete from archived tasks */}
 			<div className="flex-1">
@@ -79,7 +82,11 @@ const TaskForm = ({
 					onChange={(e, newValue) => {
 						if (newValue !== null && typeof newValue !== "string") {
 							handleInfoChange(e, newValue.title, "title");
-							handleInfoChange(e, newValue.body, "body");
+							// move the focus the body input
+							if (!!bodyInputRef) bodyInputRef.current?.focus();
+						} else {
+							// blank title
+							handleInfoChange(e, "", "title");
 						}
 					}}
 					renderInput={(params) => {
@@ -88,6 +95,8 @@ const TaskForm = ({
 								inputRef={titleInputRef}
 								placeholder="Title"
 								variant="standard"
+								// If it's the sample
+								autoFocus={isSample}
 								{...params}
 							/>
 						);
@@ -99,15 +108,19 @@ const TaskForm = ({
 			<Divider orientation="vertical" flexItem light />
 
 			{/* body field */}
-			<input
-				ref={bodyInputRef}
-				className="border-b border-gray-400 flex-1"
-				value={body}
-				name="body"
-				onChange={(e) => handleInfoChange(e, e.target.value, "body")}
-				placeholder="Body"
-			/>
+			<div className="flex-1">
+				<TextField
+					inputRef={bodyInputRef}
+					placeholder="Body"
+					variant="standard"
+					value={body}
+					fullWidth
+					onChange={(e) => handleInfoChange(e, e.target.value, "body")}
+					inputProps={{ style: { padding: "3px 0 6px" } }}
+				/>
+			</div>
 
+			{/* hidden submit button */}
 			<button type="submit" className="sr-only"></button>
 		</form>
 	);

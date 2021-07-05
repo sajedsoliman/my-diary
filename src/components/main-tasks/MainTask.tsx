@@ -14,6 +14,7 @@ import TaskControls from "./TaskControls";
 
 // types
 import { MainTaskProps } from "../../typescripts/commonTypes";
+import { useTheme } from "@material-ui/core";
 
 type Props = {
 	task: MainTaskProps;
@@ -35,7 +36,15 @@ const MainTask = ({ task, taskList, index }: Props) => {
 	// Import Store component to update, delete the task
 	const { handleUpdateTask, handleDeleteTask } = Store();
 
+	const toggleEditView = () => {
+		if (editView) setFocusedInput("");
+
+		setEditView((prev) => !prev);
+	};
+
 	const updateTaskInfo = () => {
+		toggleEditView();
+
 		const newData = {
 			title,
 			body,
@@ -43,12 +52,6 @@ const MainTask = ({ task, taskList, index }: Props) => {
 
 		if (title !== "") handleUpdateTask(taskList, "main_tasks", newData, task.id);
 		else handleDeleteTask("main_tasks", task);
-	};
-
-	const toggleEditView = () => {
-		if (editView) setFocusedInput("");
-
-		setEditView((prev) => !prev);
 	};
 
 	// handle toggle task (complete/incomplete)
@@ -62,17 +65,19 @@ const MainTask = ({ task, taskList, index }: Props) => {
 		// e.relatedTarget === null => your blurred out of the form
 		// e.relatedTarget === some input => your blurred within the form's inputs
 		if (e.relatedTarget === null) {
-			// Change the view to show details
-			toggleEditView();
-
 			updateTaskInfo();
+		} else {
+			// @ts-ignore
+			const isSameTask = e.target.form === e.relatedTarget.form;
+
+			if (!isSameTask) {
+				updateTaskInfo();
+			}
 		}
 	};
 
 	// handle form submitting
 	const handleSubmitForm = () => {
-		toggleEditView();
-
 		updateTaskInfo();
 	};
 
@@ -113,6 +118,8 @@ const MainTask = ({ task, taskList, index }: Props) => {
 		handleDeleteTask("main_tasks", task);
 	};
 
+	const darkMode = useTheme().palette.type === "dark";
+
 	return (
 		<Draggable draggableId={task.id} index={index}>
 			{(provided, { isDragging }) => {
@@ -122,9 +129,10 @@ const MainTask = ({ task, taskList, index }: Props) => {
 						// will not be draggable if it is in edit view
 						{...(!editView && { ...provided.draggableProps, ...provided.dragHandleProps })}
 						className={clsx(
-							"flex space-x-3 my-1 items-center justify-between overflow-x-auto bg-white",
+							"flex space-x-3 my-1 items-center justify-between border rounded-md overflow-x-auto p-2",
 							isDragging && "border-primary shadow-md",
-							editView ? "py-2" : "border p-2"
+							!editView && "bg-white",
+							darkMode && "text-white bg-dark border-dark"
 						)}
 					>
 						{editView ? (

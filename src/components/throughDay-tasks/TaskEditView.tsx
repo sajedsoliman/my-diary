@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 
+// UI
+import { TextField } from "@material-ui/core";
+
 // hooks
 import { Form } from "hooks/useForm";
 
@@ -65,12 +68,13 @@ const TaskEditView = ({ task, taskList, toggleEditView }: Props) => {
 	return (
 		<Form onSubmit={handleSubmit} onBlur={updateTask} className="flex-1">
 			{/* Body field */}
-			<input
-				value={taskBody}
-				onChange={onChangeBody}
+			<TextField
 				placeholder="Task Body"
+				variant="standard"
+				value={taskBody}
+				fullWidth
+				onChange={onChangeBody}
 				autoFocus
-				className="border-b w-full"
 			/>
 
 			<button className="sr-only" type="submit"></button>

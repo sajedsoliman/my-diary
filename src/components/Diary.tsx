@@ -57,13 +57,14 @@ const Diary = () => {
 		throughDay: false,
 		main: false,
 	});
+
 	const [diaryFilterDate, setDiaryDate] = useState(new Date());
 
 	// import window width hook
 	const { windowWidth } = useWindowWidth();
 
 	// import Store components to get today's diary
-	const { getDiary } = Store();
+	const { getDiary, handleUpdateTaskList } = Store();
 
 	useEffect(() => {
 		// db.collection("users")
@@ -132,17 +133,10 @@ const Diary = () => {
 		newTaskList.splice(taskIndex, 1);
 		newTaskList.splice(taskToGoIndex, 0, task);
 
-		// new list
-		// [taskList[taskIndex], taskList[taskToGoIndex]] = [taskList[taskToGoIndex], taskList[taskIndex]];
+		setDiary((prev) => (!!prev ? { ...prev, [taskListType]: newTaskList } : null));
 
-		setDiary((prev) =>
-			!!prev
-				? {
-						...prev,
-						[taskListType]: newTaskList,
-				  }
-				: null
-		);
+		// apply the change in db
+		handleUpdateTaskList(taskListType, newTaskList, diary.id);
 	};
 
 	const progressColor = getProgressClr(diary.progress);
@@ -153,13 +147,15 @@ const Diary = () => {
 				{/* filter diaries - get the diary based on the day */}
 				<FilterDiary diaryDate={diaryFilterDate} handleChangeDate={handleChangeDate} />
 
+				{/* test test */}
+
 				{/* Menus */}
 				<DragDropContext onDragEnd={handleDragEng}>
 					<div>
 						<Grid container spacing={1}>
 							{/* Main task list section */}
 							<Grid item xs={12} md={6}>
-								<section className="p-2 border border-primaryLight">
+								<section className="p-2 border rounded-md border-primaryLight">
 									{/* Menu Header */}
 
 									{/* Title */}
@@ -197,7 +193,13 @@ const Diary = () => {
 
 							{/* ThroughDay task list section */}
 							<Grid item xs={12} md={6}>
-								<section className="p-2 border border-red-300">
+								<section
+									/* style={{
+										borderRightColor: "rgb(255 101 101)",
+										borderLeftColor: "rgb(255,101,101)",
+									}} */
+									className="p-2 border border-red-300 rounded-md"
+								>
 									{/* Title */}
 									<h5 className={headerClassName}>
 										<span>ThroughDay Tasks</span>
