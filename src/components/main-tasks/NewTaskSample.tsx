@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // components
 import TaskForm from "./TaskInfoForm";
@@ -11,6 +11,8 @@ type Props = {
 };
 
 const NewTaskSample = ({ toggleSample, sampleClosed }: Props) => {
+	const bodyInputRef = useRef<HTMLInputElement | null>(null);
+
 	const [sampleInfo, setSampleInfo] = useState<{ title: string; body: string }>({
 		title: "",
 		body: "",
@@ -62,6 +64,7 @@ const NewTaskSample = ({ toggleSample, sampleClosed }: Props) => {
 				handleBlur={handleBlur}
 				handleSubmit={handleSubmit}
 				handleInfoChange={handleChangeInputs}
+				bodyInputRef={bodyInputRef}
 				taskInfo={sampleInfo}
 			/>
 		</div>

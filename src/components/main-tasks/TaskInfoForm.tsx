@@ -58,7 +58,7 @@ const TaskForm = ({
 	}, [taskInfo]);
 
 	// are we inside the sample condition
-	const isSample = !bodyInputRef && !titleInputRef;
+	const isSample = !bodyInputRef || !titleInputRef;
 
 	return (
 		<form
