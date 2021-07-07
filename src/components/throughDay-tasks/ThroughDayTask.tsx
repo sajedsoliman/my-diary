@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 // UI
-import { useTheme } from "@material-ui/core";
+import { makeStyles, Tooltip, useTheme } from "@material-ui/core";
 
 // utils
 import clsx from "clsx";
@@ -21,7 +21,16 @@ type Props = {
 	index: number;
 };
 
+// styles
+const useStyles = makeStyles((theme) => ({
+	tooltip: {
+		fontSize: 14,
+	},
+}));
+
 const ThroughDayTask = ({ task, taskList, index }: Props) => {
+	const classes = useStyles();
+
 	// State vars
 	const [editView, setEditView] = useState(false);
 
@@ -64,17 +73,29 @@ const ThroughDayTask = ({ task, taskList, index }: Props) => {
 					>
 						{editView ? (
 							<TaskEditView toggleEditView={toggleEditView} taskList={taskList} task={task} />
-						) : (
-							<h6
-								onClick={toggleEditView}
-								className={`${task.completed && "line-through"} flex-1 cursor-pointer text-sm`}
+						) : task.completed ? (
+							<Tooltip
+								classes={{ tooltip: classes.tooltip }}
+								placement="left"
+								title={task.completionNote}
 							>
+								<h6
+									onClick={toggleEditView}
+									className={`${task.completed && "line-through"} flex-1 cursor-pointer text-sm`}
+								>
+									{task.body}
+								</h6>
+							</Tooltip>
+						) : (
+							<h6 onClick={toggleEditView} className={`flex-1 cursor-pointer text-sm`}>
 								{task.body}
 							</h6>
 						)}
 
 						{!editView && (
 							<TaskControls
+								task={task}
+								taskList={taskList}
 								handleDelete={handleDelete}
 								handleToggleTask={handleToggleTask}
 								completed={task.completed}

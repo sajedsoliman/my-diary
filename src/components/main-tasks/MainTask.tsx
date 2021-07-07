@@ -147,7 +147,7 @@ const MainTask = ({ task, taskList, index }: Props) => {
 							/>
 						) : (
 							<InfoView
-								taskInfo={taskInfo}
+								taskInfo={{ ...taskInfo, completionNote: task.completionNote }}
 								completed={task.completed}
 								handleClickToOpenEditView={handleClickToOpenEditView}
 							/>
@@ -156,6 +156,7 @@ const MainTask = ({ task, taskList, index }: Props) => {
 						{/* complete toggler */}
 						{!editView && (
 							<TaskControls
+								taskList={taskList}
 								task={task}
 								completed={task.completed}
 								handleDelete={handleDelete}

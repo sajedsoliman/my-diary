@@ -94,6 +94,7 @@ const Store = () => {
 		const newTask: MainTaskProps | ThroughDayTaskProps = {
 			...taskInfo,
 			completed: false,
+			completionNote: "",
 			id: (new Date().getTime() * Math.random()).toString(),
 		};
 

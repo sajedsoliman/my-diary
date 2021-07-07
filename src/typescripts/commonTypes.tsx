@@ -3,6 +3,7 @@ type MainTaskProps = {
 	body: string;
 	id: string;
 	completed: boolean;
+	completionNote: string;
 };
 
 type MainTaskInfoProps = {
@@ -14,6 +15,7 @@ type ThroughDayTaskProps = {
 	body: string;
 	completed: boolean;
 	id: string;
+	completionNote: string;
 };
 
 type DBDiaryProps = {

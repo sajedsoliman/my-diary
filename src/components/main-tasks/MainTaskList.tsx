@@ -83,6 +83,7 @@ const MainTaskList = ({ list }: Props) => {
 
 										{/* sample */}
 										<NewTaskSample
+											taskList={list}
 											toggleSample={() => setSampleOpen(false)}
 											sampleClosed={isSampleClosed}
 										/>

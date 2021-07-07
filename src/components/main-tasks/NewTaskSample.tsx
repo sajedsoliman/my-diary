@@ -5,12 +5,14 @@ import TaskForm from "./TaskInfoForm";
 import Store from "./../../backends/Store";
 
 // types
+import { MainTaskProps } from "typescripts/commonTypes";
 type Props = {
 	toggleSample: () => void;
 	sampleClosed: boolean;
+	taskList: MainTaskProps[];
 };
 
-const NewTaskSample = ({ toggleSample, sampleClosed }: Props) => {
+const NewTaskSample = ({ toggleSample, sampleClosed, taskList }: Props) => {
 	const bodyInputRef = useRef<HTMLInputElement | null>(null);
 
 	const [sampleInfo, setSampleInfo] = useState<{ title: string; body: string }>({
@@ -28,6 +30,11 @@ const NewTaskSample = ({ toggleSample, sampleClosed }: Props) => {
 
 		// Close the sample
 		toggleSample();
+
+		// check if the task is already existed or not
+		const isExisted = taskList.find((task: MainTaskProps) => task.title === title);
+
+		if (Boolean(isExisted)) return;
 
 		// if title isn't blank Add the task
 		addTask(sampleInfo, "main_tasks");
