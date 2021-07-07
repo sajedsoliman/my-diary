@@ -9,6 +9,7 @@ import {
 	IconButton,
 	Divider,
 	useTheme,
+	Typography,
 } from "@material-ui/core";
 
 // icons
@@ -18,7 +19,7 @@ import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
 import Store from "../backends/Store";
 
 // info
-import { getProgressClr } from "helpers/functions";
+import { getDayName, getProgressClr } from "helpers/functions";
 
 // utils
 import clsx from "clsx";
@@ -42,6 +43,7 @@ import { DiaryProps, MainTaskProps, ThroughDayTaskProps } from "../typescripts/c
 // styles
 const useStyles = makeStyles((theme) => ({
 	container: {
+		paddingBottom: 20,
 		[theme.breakpoints.down("xs")]: {
 			padding: 0,
 		},
@@ -141,13 +143,19 @@ const Diary = () => {
 
 	const progressColor = getProgressClr(diary.progress);
 
+	// get the current day (sunday or monday or ...)
+	const todayTitle = getDayName(diaryFilterDate, "en-US");
+
 	return (
 		<DiaryContextProvider value={diary}>
 			<Container className={classes.container}>
+				{/* The current day (today) as a title */}
+				<h3 className={clsx("text-lg text-center", darkMode ? "text-white" : "text-black")}>
+					{todayTitle}
+				</h3>
+
 				{/* filter diaries - get the diary based on the day */}
 				<FilterDiary diaryDate={diaryFilterDate} handleChangeDate={handleChangeDate} />
-
-				{/* test test */}
 
 				{/* Menus */}
 				<DragDropContext onDragEnd={handleDragEng}>

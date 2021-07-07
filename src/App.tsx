@@ -27,11 +27,29 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import React from "react";
 
+const getDarkModeInitialValue = (): boolean => {
+	// get it from the localStorage
+	const savedDarkMode = localStorage.getItem("dark-mode");
+
+	if (savedDarkMode !== null) {
+		const parsedValue: boolean = JSON.parse(savedDarkMode);
+
+		return parsedValue;
+	}
+
+	return false;
+};
+
 function App() {
 	const loggedUser = AuthUser();
 
 	// State vars
-	const [darkMode, setDarkMode] = useState(false);
+	const [darkMode, setDarkMode] = useState(getDarkModeInitialValue());
+
+	// a listener for dark mode to saved it in localStorage (cache it)
+	useEffect(() => {
+		localStorage.setItem("dark-mode", JSON.stringify(darkMode));
+	}, [darkMode]);
 
 	// handle toggle dark mode
 	const toggleDarkMode = (e: React.ChangeEvent<HTMLInputElement>) => {

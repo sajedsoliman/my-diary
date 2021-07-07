@@ -4,7 +4,15 @@ import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 // UI
-import { AppBar, Toolbar, Avatar, makeStyles, IconButton, Button } from "@material-ui/core";
+import {
+	AppBar,
+	Toolbar,
+	Avatar,
+	makeStyles,
+	IconButton,
+	Button,
+	useTheme,
+} from "@material-ui/core";
 
 // icons
 import { LoginIcon, LogoutIcon, UserAddIcon } from "@heroicons/react/outline";
@@ -46,8 +54,15 @@ const Header = ({ toggleDarkMode }: Props) => {
 		to,
 	});
 
+	const darkMode = useTheme().palette.type === "dark";
+
+	const headerStyles = {
+		backgroundColor: darkMode ? "rgb(41 41 41)" : "white",
+		color: darkMode ? "white" : "#222",
+	};
+
 	return (
-		<AppBar position="relative" variant="outlined" color="transparent">
+		<AppBar position="relative" variant="outlined" style={headerStyles}>
 			<Toolbar variant="dense">
 				{/* logged user: avatar, full name. controls: logout */}
 				{loggedUser !== "no user" ? (

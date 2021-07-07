@@ -111,4 +111,9 @@ const getProgressClr = (progress) => {
 	return color;
 };
 
-export { getProgressClr, userValidation };
+function getDayName(dateStr, locale) {
+	var date = new Date(dateStr);
+	return date.toLocaleDateString(locale, { weekday: "long" });
+}
+
+export { getProgressClr, userValidation, getDayName };
