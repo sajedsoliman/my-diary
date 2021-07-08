@@ -10,7 +10,7 @@ import Store from "../../backends/Store";
 import TaskInfoForm from "./TaskInfoForm";
 import InfoView from "./InfoView";
 import { Draggable } from "react-beautiful-dnd";
-import TaskControls from "./TaskControls";
+import TaskControls from "../task/TaskControls";
 
 // types
 import { MainTaskProps } from "../../typescripts/commonTypes";
@@ -122,16 +122,15 @@ const MainTask = ({ task, taskList, index }: Props) => {
 
 	return (
 		<Draggable draggableId={task.id} index={index}>
-			{(provided, { isDragging }) => {
+			{({ innerRef, draggableProps, dragHandleProps }, { isDragging }) => {
 				return (
 					<li
-						ref={provided.innerRef}
+						ref={innerRef}
 						// will not be draggable if it is in edit view
-						{...(!editView && { ...provided.draggableProps, ...provided.dragHandleProps })}
+						{...(!editView && { ...draggableProps, ...dragHandleProps })}
 						className={clsx(
-							"flex space-x-3 my-1 items-center justify-between border rounded-md overflow-x-auto p-2",
+							"flex items-center justify-between border bg-white rounded-md my-1 p-2",
 							isDragging && "border-primary shadow-md",
-							!editView && "bg-white",
 							darkMode && "text-white bg-dark border-dark"
 						)}
 					>
@@ -153,12 +152,11 @@ const MainTask = ({ task, taskList, index }: Props) => {
 							/>
 						)}
 
-						{/* complete toggler */}
+						{/* task controls => delete, complete, archive ... */}
 						{!editView && (
 							<TaskControls
-								taskList={taskList}
 								task={task}
-								completed={task.completed}
+								taskList={taskList}
 								handleDelete={handleDelete}
 								handleToggleTask={handleToggleTask}
 								listType="main_tasks"

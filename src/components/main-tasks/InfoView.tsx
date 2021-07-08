@@ -31,7 +31,23 @@ const InfoView = ({ completed, taskInfo, handleClickToOpenEditView }: Props) => 
 	);
 
 	if (completed)
-		return (
+		return atSmallScreen ? (
+			<div
+				className={clsx(
+					"flex space-x-4 items-center flex-1 cursor-pointer font-medium line-through"
+				)}
+			>
+				<h5 className="" onClick={() => handleClickToOpenEditView("title")}>
+					{taskInfo.title}
+				</h5>
+				<p
+					className={`text-blue-500 flex-1 ${atSmallScreen && "text-sm"}`}
+					onClick={() => handleClickToOpenEditView("body")}
+				>
+					{taskInfo.body}
+				</p>
+			</div>
+		) : (
 			<Tooltip
 				classes={{ tooltip: classes.tooltip }}
 				placement="bottom"

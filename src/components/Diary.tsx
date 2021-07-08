@@ -48,6 +48,12 @@ const useStyles = makeStyles((theme) => ({
 			padding: 0,
 		},
 	},
+	listGridItem: {
+		[theme.breakpoints.down("sm")]: {
+			paddingRight: "0 !important",
+			paddingLeft: "0 !important",
+		},
+	},
 }));
 
 const Diary = () => {
@@ -110,9 +116,11 @@ const Diary = () => {
 	const isSmallScreen = windowWidth <= 600;
 
 	// menu header className
-	const headerClassName = `text-center text-md flex items-center ${!isSmallScreen && "mb-2"} ${
+	const headerClassName = clsx(
+		`text-center text-md flex items-center cursor-default`,
+		!isSmallScreen && "mb-2",
 		darkMode ? "text-white font-medium" : "font-semibold"
-	} cursor-default`;
+	);
 
 	// handle ending the task dragging (leave the mouse)
 	const handleDragEng = (result: DropResult, provided: ResponderProvided) => {
@@ -162,10 +170,8 @@ const Diary = () => {
 					<div>
 						<Grid container spacing={1}>
 							{/* Main task list section */}
-							<Grid item xs={12} md={6}>
-								<section className="p-2 border rounded-md border-primaryLight">
-									{/* Menu Header */}
-
+							<Grid item xs={12} md={6} className={classes.listGridItem}>
+								<section className="border rounded-md border-primaryLight p-2">
 									{/* Title */}
 									<h5 className={headerClassName}>
 										<span>Main Tasks</span>
@@ -200,14 +206,8 @@ const Diary = () => {
 							</Grid>
 
 							{/* ThroughDay task list section */}
-							<Grid item xs={12} md={6}>
-								<section
-									/* style={{
-										borderRightColor: "rgb(255 101 101)",
-										borderLeftColor: "rgb(255,101,101)",
-									}} */
-									className="p-2 border border-red-300 rounded-md"
-								>
+							<Grid item xs={12} md={6} className={classes.listGridItem}>
+								<section className="border border-red-300 rounded-md p-2">
 									{/* Title */}
 									<h5 className={headerClassName}>
 										<span>ThroughDay Tasks</span>

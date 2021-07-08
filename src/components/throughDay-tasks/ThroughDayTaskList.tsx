@@ -48,7 +48,7 @@ const ThroughDayTaskList = ({ list }: Props) => {
 	const darkMode = useTheme().palette.type === "dark";
 
 	return (
-		<div>
+		<div className="mt-4">
 			{/* List itself */}
 			<Droppable droppableId="throughDay_tasks">
 				{({ innerRef, droppableProps, placeholder }, { isDraggingOver }) => (
@@ -56,7 +56,7 @@ const ThroughDayTaskList = ({ list }: Props) => {
 						ref={innerRef}
 						{...droppableProps}
 						className={clsx(
-							"mb-2 mt-4 p-1 rounded-sm overflow-hidden transition-all",
+							"mb-2 p-1 rounded-sm transition-all",
 							isDraggingOver && "border-red-200 border"
 						)}
 					>
@@ -65,6 +65,8 @@ const ThroughDayTaskList = ({ list }: Props) => {
 						) : (
 							mappedTasks
 						)}
+
+						{placeholder}
 
 						{/* new task sample */}
 						{sampleOpen && (
@@ -83,8 +85,6 @@ const ThroughDayTaskList = ({ list }: Props) => {
 								</li>
 							</>
 						)}
-
-						{placeholder}
 					</ul>
 				)}
 			</Droppable>

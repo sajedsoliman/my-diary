@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
 // UI
-import { IconButton, ClickAwayListener } from "@material-ui/core";
+import { IconButton, ClickAwayListener, Tooltip } from "@material-ui/core";
 import PopUp from "common-components/ui/PopUp";
 
 // Icons
@@ -11,6 +11,7 @@ import {
 	DeleteForever,
 	DoneOutline,
 	MoreVert,
+	NoteOutlined,
 	Undo,
 } from "@material-ui/icons";
 
@@ -21,28 +22,20 @@ import { useToggleArchive, useArchivedTasks } from "contexts/ArchivedTasksContex
 
 // components
 import CustomMenuList from "../../common-components/ui/CustomMenuList";
-import TaskCompletionNote from "./../task/TaskCompletionNote";
+import TaskCompletionNote from "./TaskCompletionNote";
 import Store from "backends/Store";
 
 // types
 import { MainTaskProps, ThroughDayTaskProps } from "typescripts/commonTypes";
 type Props = {
 	handleToggleTask: () => void;
-	completed: boolean;
 	handleDelete: () => void;
 	listType: "main_tasks" | "throughDay_tasks";
 	task: MainTaskProps | ThroughDayTaskProps;
 	taskList: (MainTaskProps | ThroughDayTaskProps)[];
 };
 
-const TaskControls = ({
-	handleToggleTask,
-	completed,
-	handleDelete,
-	listType,
-	task,
-	taskList,
-}: Props) => {
+const TaskControls = ({ handleToggleTask, handleDelete, listType, task, taskList }: Props) => {
 	const archivedTasks = useArchivedTasks();
 	const handleArchive = useToggleArchive();
 
@@ -52,6 +45,7 @@ const TaskControls = ({
 	// Stats vars
 	const [controlsOpen, setOpen] = useState(false);
 	const [completionNoteDialogOpen, setNoteDialogOpen] = useState(false);
+	const [showNote, setShowNote] = useState(false);
 
 	// Import Store component to update the task
 	const { handleUpdateTask } = Store();
@@ -59,6 +53,15 @@ const TaskControls = ({
 	// handle toggle the controls popper
 	const togglePopper = () => {
 		setOpen((isOpen) => !isOpen);
+	};
+
+	// handle click complete
+	const handleClickComplete = () => {
+		if (!task.completed) {
+			toggleNotePopup();
+		}
+
+		handleToggleTask();
 	};
 
 	// is task archived check
@@ -69,6 +72,8 @@ const TaskControls = ({
 
 	// is the task a main one?
 	const isMain = listType === "main_tasks";
+	// is task completed?
+	const completed = task.completed;
 
 	// handle toggle the completion note dialog(PopUp)
 	const toggleNotePopup = () => {
@@ -95,6 +100,18 @@ const TaskControls = ({
 		toggleNotePopup();
 	};
 
+	// handle toggle completion note's tooltip
+	const toggleCompletionNote = () => {
+		setShowNote((isOpen) => !isOpen);
+	};
+
+	// handle click out of the popover
+	const handleClickAway = () => {
+		setOpen(false);
+
+		setShowNote(false);
+	};
+
 	return (
 		<div>
 			<IconButton size="small" onClick={togglePopper} ref={popperTogglerRef}>
@@ -102,20 +119,10 @@ const TaskControls = ({
 			</IconButton>
 
 			<CustomMenuList open={controlsOpen} placement="left" anchorEl={popperTogglerRef.current}>
-				<ClickAwayListener onClickAway={togglePopper}>
-					<div className="flex flex-col space-y-2 p-2">
+				<ClickAwayListener onClickAway={handleClickAway}>
+					<div className="grid grid-cols-2 grid-rows-2 gap-1 p-2">
 						{/* toggle task */}
-						<IconButton
-							onClick={() => {
-								if (!completed) {
-									toggleNotePopup();
-								}
-
-								handleToggleTask();
-							}}
-							size="small"
-							color="primary"
-						>
+						<IconButton onClick={handleClickComplete} size="small" color="primary">
 							{completed ? <Undo /> : <DoneOutline />}
 						</IconButton>
 
@@ -137,6 +144,24 @@ const TaskControls = ({
 								{isArchived ? <Bookmark /> : <BookmarkBorder />}
 							</IconButton>
 						)}
+
+						<Tooltip
+							title={task.completionNote}
+							disableHoverListener
+							disableTouchListener
+							interactive
+							open={showNote}
+							onClose={toggleCompletionNote}
+						>
+							<IconButton
+								className="col-start-2"
+								color="primary"
+								size="small"
+								onClick={toggleCompletionNote}
+							>
+								<NoteOutlined />
+							</IconButton>
+						</Tooltip>
 					</div>
 				</ClickAwayListener>
 			</CustomMenuList>
@@ -150,6 +175,8 @@ const TaskControls = ({
 					handleCloseDialog={toggleNotePopup}
 				/>
 			</PopUp>
+
+			{/* Show completion note on a popup */}
 		</div>
 	);
 };

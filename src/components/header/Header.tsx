@@ -42,16 +42,11 @@ const Header = ({ toggleDarkMode }: Props) => {
 	const { handleSignOut } = Store();
 
 	// Button props
-	const btnProps = (
-		color: string,
-		icon: React.ComponentProps<"svg">,
-		to: string,
-		component = RouterLink
-	) => ({
+	const btnProps = (color: string, icon: React.ComponentProps<"svg">, to: string) => ({
 		color,
-		component,
 		startIcon: icon,
 		to,
+		component: RouterLink,
 	});
 
 	const darkMode = useTheme().palette.type === "dark";
@@ -91,12 +86,11 @@ const Header = ({ toggleDarkMode }: Props) => {
 					/* unLogged user : nothing. controls: login, register */
 					<div className="flex flex-1 items-center space-x-2">
 						{/* @ts-ignore */}
-						<Button {...btnProps("primary", <LoginIcon className="h-6" />, "/login")}>
-							<span className="text-gray-600">Login</span>
-						</Button>
+						<Button {...btnProps("primary", <LoginIcon className="h-6" />, "/login")}>Login</Button>
+
 						{/* @ts-ignore */}
 						<Button {...btnProps("primary", <UserAddIcon className="h-5" />, "/register")}>
-							<span className="text-gray-600">Register</span>
+							<span /* className="text-gray-600" */>Register</span>
 						</Button>
 					</div>
 				)}

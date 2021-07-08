@@ -6,11 +6,15 @@ import { makeStyles, Tooltip, useTheme } from "@material-ui/core";
 // utils
 import clsx from "clsx";
 
+// hooks
+import useWindowWidth from "hooks/useWindowWidth";
+
 // components
-import TaskControls from "components/main-tasks/TaskControls";
-import Store from "./../../backends/Store";
 import { Draggable } from "react-beautiful-dnd";
+import TaskControls from "components/task/TaskControls";
+import Store from "./../../backends/Store";
 import TaskEditView from "./TaskEditView";
+import InfoView from "components/throughDay-tasks/InfoView";
 
 // Types
 import { ThroughDayTaskProps } from "typescripts/commonTypes";
@@ -22,11 +26,7 @@ type Props = {
 };
 
 // styles
-const useStyles = makeStyles((theme) => ({
-	tooltip: {
-		fontSize: 14,
-	},
-}));
+const useStyles = makeStyles((theme) => ({}));
 
 const ThroughDayTask = ({ task, taskList, index }: Props) => {
 	const classes = useStyles();
@@ -65,40 +65,25 @@ const ThroughDayTask = ({ task, taskList, index }: Props) => {
 						// will not be draggable if it is in edit view
 						{...(!editView && { ...draggableProps, ...dragHandleProps })}
 						className={clsx(
-							"p-2 flex items-center justify-between bg-white rounded-md",
+							"flex items-center justify-between bg-white rounded-md p-2 my-1",
 							snapshot.isDragging && "border-red-300 shadow-md overflow-y-hidden",
-							!editView ? "border my-1" : "my-2",
+							!editView && "border",
 							darkMode && "bg-dark text-white border-dark"
 						)}
 					>
 						{editView ? (
 							<TaskEditView toggleEditView={toggleEditView} taskList={taskList} task={task} />
-						) : task.completed ? (
-							<Tooltip
-								classes={{ tooltip: classes.tooltip }}
-								placement="left"
-								title={task.completionNote}
-							>
-								<h6
-									onClick={toggleEditView}
-									className={`${task.completed && "line-through"} flex-1 cursor-pointer text-sm`}
-								>
-									{task.body}
-								</h6>
-							</Tooltip>
 						) : (
-							<h6 onClick={toggleEditView} className={`flex-1 cursor-pointer text-sm`}>
-								{task.body}
-							</h6>
+							<InfoView task={task} toggleEditView={toggleEditView} />
 						)}
 
+						{/* task controls => delete, complete, archive ... */}
 						{!editView && (
 							<TaskControls
 								task={task}
 								taskList={taskList}
 								handleDelete={handleDelete}
 								handleToggleTask={handleToggleTask}
-								completed={task.completed}
 								listType="throughDay_tasks"
 							/>
 						)}

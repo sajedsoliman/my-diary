@@ -54,11 +54,11 @@ const MainTaskList = ({ list }: Props) => {
 			{/* Task list */}
 			<ArchivedTasksProvider>
 				<Droppable droppableId="main_tasks">
-					{(provided, { isDraggingOver }) => {
+					{({ innerRef, droppableProps, placeholder }, { isDraggingOver }) => {
 						return (
 							<ul
-								{...provided.droppableProps}
-								ref={provided.innerRef}
+								ref={innerRef}
+								{...droppableProps}
 								className={clsx(
 									"mb-2 p-1 transition-all rounded-sm",
 									isDraggingOver && "border border-primary"
@@ -71,7 +71,7 @@ const MainTaskList = ({ list }: Props) => {
 								)}
 
 								{/* the placeholder */}
-								{provided.placeholder}
+								{placeholder}
 
 								{/* new task sample form */}
 								{sampleOpen && (
