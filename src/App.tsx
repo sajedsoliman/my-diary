@@ -1,19 +1,14 @@
 import { useState, useEffect } from "react";
 // router
-import { Switch, Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import UnAuthRoute from "common-components/router/UnAuthRoute";
 import AuthRoute from "common-components/router/AuthRoute";
 
 // UI
-import { createMuiTheme, ThemeProvider, useTheme } from "@material-ui/core";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 
-// redux
-import { useDispatch, useSelector } from "react-redux";
-
-import axios from "axios";
-/* const fakeApiRef = axios.create({
-	baseURL: "https://jsonplaceholder.typicode.com/users",
-}); */
+// util
+import clsx from "clsx";
 
 // contexts
 import { AuthUser } from "contexts/UserContext";
@@ -76,7 +71,7 @@ function App() {
 				{/* Header */}
 				<Header toggleDarkMode={toggleDarkMode} />
 
-				<main className={`pt-3 content ${darkMode && "bg-black"}`}>
+				<main className={clsx("pt-3  content border-2 border-pink-700", darkMode && "bg-black")}>
 					<Switch>
 						<AuthRoute path="/" errorMsg="Please login first to see your diaries" exact>
 							<Diary />
@@ -90,6 +85,11 @@ function App() {
 							<Register />
 						</UnAuthRoute>
 					</Switch>
+
+					{/* Footer */}
+					<footer className="mt-auto mx-auto pt-12 pb-6">
+						<h3>Made with ❤ by Sajid</h3>
+					</footer>
 				</main>
 			</div>
 		</ThemeProvider>
