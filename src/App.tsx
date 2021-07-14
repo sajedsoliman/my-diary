@@ -36,7 +36,7 @@ const getDarkModeInitialValue = (): boolean => {
 };
 
 function App() {
-	const loggedUser = AuthUser();
+	// const loggedUser = AuthUser();
 
 	// State vars
 	const [darkMode, setDarkMode] = useState(getDarkModeInitialValue());
@@ -71,7 +71,7 @@ function App() {
 				{/* Header */}
 				<Header toggleDarkMode={toggleDarkMode} />
 
-				<main className={clsx("pt-3  content border-2 border-pink-700", darkMode && "bg-black")}>
+				<main className={clsx("pt-3 content", darkMode && "bg-black")}>
 					<Switch>
 						<AuthRoute path="/" errorMsg="Please login first to see your diaries" exact>
 							<Diary />
@@ -87,7 +87,7 @@ function App() {
 					</Switch>
 
 					{/* Footer */}
-					<footer className="mt-auto mx-auto pt-12 pb-6">
+					<footer className={clsx("mt-auto mx-auto pt-12 pb-6", darkMode && "text-white")}>
 						<h3>Made with ❤ by Sajid</h3>
 					</footer>
 				</main>

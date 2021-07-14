@@ -32,4 +32,11 @@ body {
 	height: calc(100vh - 50px);
 	overflow-x: hidden;
 	overflow-y: auto;
+	background: green;
+}
+
+@supports (height: calc(100vh - 50px)) {
+	.content {
+		background: red;
+	}
 }
